@@ -1,4 +1,6 @@
 import { test, expect } from '@playwright/test';
+import {HomePage} from "../pages/HomePage";
+import {testData} from "./testData";
 
 /** Improvement idea: The below test can be improved by:
  * Page-Object model for re-usability of locators, methods
@@ -15,7 +17,7 @@ test('should have at least 1 job title with `Quality`', async ({ page }) => {
     console.log("Total number of open jobs is " + jobCount);
 
     // Check if expected job Title exists
-    const jobTitleLocator = await page.locator("div[id='all']>section>div>a>div>div[class='jb-title']");
+    const jobTitleLocator = page.locator("div[id='all']>section>div>a>div>div[class='jb-title']");
     const jobTitlesElementsList = await jobTitleLocator.all();
     for(const row of jobTitlesElementsList) {
         const jobTitle = await row.textContent();
@@ -29,5 +31,18 @@ test('should have at least 1 job title with `Quality`', async ({ page }) => {
     // checkTitleExists = await jobTitleLocator.locator("text=Quality").count() > 0;
 
     expect(checkTitleExists).toBe(true);
+
+});
+
+
+test('Page-Object Model - should have at least 1 job title with `Sales`', async ({ page }) => {
+    // Initialise page-objects
+    const homePage = new HomePage(page);
+    // Navigate to URL
+    await homePage.goto(testData.baseUrl);
+    // Print number of open jobs
+    console.log("Total number of open jobs is " + await homePage.getJobCount());
+    // Verify that job Title exists
+    expect(await homePage.checkIfTitleExists("Sales")).toBe(true);
 
 });
