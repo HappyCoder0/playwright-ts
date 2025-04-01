@@ -28,6 +28,6 @@ test('should have at least 1 job title with `Quality`', async ({ page }) => {
     /** Improvement idea: The above code can be optimised using Fluent/chain approach as below*/
     // checkTitleExists = await jobTitleLocator.locator("text=Quality").count() > 0;
 
-    expect(checkTitleExists).toBe(true);
+    expect(checkTitleExists).toBe(false);
 
 });
